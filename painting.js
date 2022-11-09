@@ -13,6 +13,7 @@ const colorOptions = Array.from(
 const modeBtn = document.querySelector(".mode-btn");
 const eraserBtn = document.querySelector(".eraser-btn");
 const initBtn = document.querySelector(".init-btn");
+const file = document.querySelector(".file");
 
 canvas.width = 800;
 canvas.height = 800;
@@ -115,6 +116,18 @@ function onInitClick() {
   ctx.fillRect(0, 0, 800, 800);
 }
 
+function onFileChange(event) {
+  const fileDate = event.target.files[0];
+  const url = URL.createObjectURL(fileDate);
+  const image = new Image();
+  image.src = url;
+  image.onload = function () {
+    ctx.drawImage(image, 0, 0, 800, 800);
+    // 선택된 파일 없음이라고 나오기 위해 널값을 줌
+    file.value = null;
+  };
+}
+
 canvas.addEventListener("mousemove", onMove);
 canvas.addEventListener("mousedown", startPainting);
 canvas.addEventListener("mouseup", cancelPainting);
@@ -133,3 +146,4 @@ colorOptions.forEach((color) => color.addEventListener("click", onClickColor));
 modeBtn.addEventListener("click", onModeClick);
 eraserBtn.addEventListener("click", onEraserClick);
 initBtn.addEventListener("click", onInitClick);
+file.addEventListener("change", onFileChange);
