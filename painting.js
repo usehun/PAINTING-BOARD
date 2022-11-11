@@ -13,11 +13,14 @@ const colorOptions = Array.from(
 const modeBtn = document.querySelector(".mode-btn");
 const eraserBtn = document.querySelector(".eraser-btn");
 const initBtn = document.querySelector(".init-btn");
-const file = document.querySelector(".file");
+const fileInput = document.querySelector(".file");
+const textInput = document.querySelector(".text");
+const saveBtn = document.querySelector(".save");
 
-canvas.width = 800;
-canvas.height = 800;
+canvas.width = 400;
+canvas.height = 400;
 ctx.lineWidth = lineWidth.value;
+ctx.lineCap = "round";
 
 // let moveX = 0;
 // let moveY = 0;
@@ -101,7 +104,7 @@ function onModeClick() {
 
 function onCanvasClick() {
   if (isFilling) {
-    ctx.fillRect(0, 0, 800, 800);
+    ctx.fillRect(0, 0, 400, 400);
   }
 }
 
@@ -113,7 +116,7 @@ function onEraserClick() {
 
 function onInitClick() {
   ctx.fillStyle = "white";
-  ctx.fillRect(0, 0, 800, 800);
+  ctx.fillRect(0, 0, 400, 400);
 }
 
 function onFileChange(event) {
@@ -122,12 +125,34 @@ function onFileChange(event) {
   const image = new Image();
   image.src = url;
   image.onload = function () {
-    ctx.drawImage(image, 0, 0, 800, 800);
+    ctx.drawImage(image, 0, 0, 400, 400);
     // 선택된 파일 없음이라고 나오기 위해 널값을 줌
     file.value = null;
   };
 }
 
+function onDoubleClick(event) {
+  const text = textInput.value;
+  if (text !== "") {
+    ctx.save();
+    ctx.lineWidth = 1;
+    ctx.font = "48px serif";
+    ctx.fillText(text, event.offsetX, event.offsetY);
+    // ctx.strokeText(text, event.offsetX, event.offsetY);
+    ctx.restore();
+  } else {
+  }
+}
+
+function onSaveClick() {
+  const url = canvas.toDataURL();
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "myDrawing.png";
+  a.click();
+}
+
+canvas.addEventListener("dblclick", onDoubleClick);
 canvas.addEventListener("mousemove", onMove);
 canvas.addEventListener("mousedown", startPainting);
 canvas.addEventListener("mouseup", cancelPainting);
@@ -146,4 +171,5 @@ colorOptions.forEach((color) => color.addEventListener("click", onClickColor));
 modeBtn.addEventListener("click", onModeClick);
 eraserBtn.addEventListener("click", onEraserClick);
 initBtn.addEventListener("click", onInitClick);
-file.addEventListener("change", onFileChange);
+fileInput.addEventListener("change", onFileChange);
+saveBtn.addEventListener("click", onSaveClick);
