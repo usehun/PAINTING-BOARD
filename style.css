@@ -7,6 +7,8 @@ body {
   justify-content: center;
   align-items: center;
   background-color: gainsboro;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
 canvas {
@@ -59,9 +61,45 @@ canvas {
 .btns {
   display: flex;
   flex-direction: column;
+  gap: 20px;
 }
 
 input.color {
   background-color: white;
   border: none;
+}
+
+button,
+label,
+input {
+  border: none;
+  background-color: dodgerblue;
+  color: white;
+  height: 40px;
+  border-radius: 5px;
+  font-size: 15px;
+  transition: transform ease-in-out 0.2s;
+  cursor: pointer;
+  text-align: center;
+  opacity: 0.9;
+}
+
+label {
+  padding-top: 20px;
+}
+
+button:hover,
+input:hover,
+label:hover {
+  transform: scale(1.1);
+  opacity: 1;
+}
+
+.file {
+  display: none;
+}
+
+input::placeholder {
+  color: white;
+  text-decoration: underline;
 }
